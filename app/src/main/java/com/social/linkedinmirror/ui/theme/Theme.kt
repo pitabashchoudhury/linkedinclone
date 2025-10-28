@@ -2,10 +2,16 @@ package com.social.linkedinmirror.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
 
+
+val LocalSpacing = staticCompositionLocalOf { Spacing() }
+val LocalAppTypography = staticCompositionLocalOf { Typography() }
 private val DarkColorScheme = darkColorScheme(
     primary = BluePrimary,
     secondary = BlueSecondary,
@@ -46,11 +52,18 @@ fun LinkedInMirrorTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+    val spacing = Spacing()
+    val typography = Typography
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalSpacing provides spacing,
+        LocalAppTypography provides typography
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
+    }
 }
